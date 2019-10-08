@@ -1,0 +1,8 @@
+{
+    "name": "rapidxml",
+    "targetType" : "library",
+    "description": "A xml parsing library for D programming language.",
+    "copyright": "Copyright (C) 2018-2019, HuntLabs",
+    "homepage": "https://www.huntlabs.net",
+    "license": "Apache-2.0"
+}
