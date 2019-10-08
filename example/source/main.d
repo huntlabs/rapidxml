@@ -6,6 +6,7 @@ void test1()
 {
     xml_document doc = new xml_document;
     string doc_text = "<single-element/>";
+	
     doc.parse(doc_text);
     auto node = doc.first_node();
     assert(node.m_name == "single-element");
@@ -16,7 +17,8 @@ void test2()
 {   
     xml_document doc = new xml_document;
     string doc_text = "<pfx:single-element/>";
-    doc.parse!(0)(doc_text);
+
+    doc.parse(doc_text);
     auto node = doc.first_node();
     assert(node.m_name == "single-element");
     doc.validate();
@@ -26,7 +28,8 @@ void test3()
 {
     xml_document doc = new xml_document;
     string doc_text = "<single-element attr='one' attr=\"two\"/>";
-    doc.parse!(0)(doc_text);
+
+    doc.parse(doc_text);
     auto node = doc.first_node();
 
     assert(node.m_name == "single-element");
@@ -37,7 +40,8 @@ void test4()
 {
     xml_document doc = new xml_document;
     string doc_text = "<single-element pfx1:attr='one' attr=\"two\"/>";
-    doc.parse!(0)(doc_text);
+
+    doc.parse(doc_text);
     auto node = doc.first_node();
 
     assert(node.m_name == "single-element");
@@ -51,7 +55,8 @@ void test5()
 {
     xml_document doc = new xml_document;
     string doc_text = "<single-element pfx1:attr='one' pfx2:attr=\"two\" xmlns:pfx1='urn:fish' xmlns:pfx2='urn:fish'/>";
-    doc.parse!(0)(doc_text);
+
+    doc.parse(doc_text);
     auto node = doc.first_node();
 
     assert(node.m_name == "single-element");
@@ -62,7 +67,7 @@ void test6()
 {
     xml_document doc = new xml_document;
     string doc_text = "<pfx:single xmlns:pfx='urn:xmpp:example'/>";
-    doc.parse!(0)(doc_text);
+    doc.parse(doc_text);
     auto node = doc.first_node();
 
     assert(node.m_name == "single");
@@ -73,7 +78,7 @@ void test7()
 {
     xml_document doc = new xml_document;
     string doc_text = "<pfx:single xmlns:pfx='urn:xmpp:example'><pfx:firstchild/><child xmlns='urn:potato'/><pfx:child/></pfx:single>";
-    doc.parse!(0)(doc_text);
+    doc.parse(doc_text);
 
     auto node = doc.first_node();
     assert("single" == node.m_name);
@@ -99,7 +104,7 @@ void test8()
     xml_document doc = new xml_document;
 
 	string doc_text = "<pfx:single xmlns:pfx='urn:xmpp:example'><pfx:firstchild/><child xmlns='urn:potato'/><pfx:child/></pfx:single>";
-	doc.parse!0(doc_text);
+	doc.parse(doc_text);
 
 	auto node = doc.first_node();
 	assert("single" == node.m_name);
@@ -123,7 +128,7 @@ void test10()
 {
     xml_document doc = new xml_document;
     string doc_text = "<pfx:class><student attr='11' attr2='22'><age>10</age><name>zhyc</name></student><student><age>11</age><name>spring</name></student></pfx:class>";
-    doc.parse!(0)(doc_text);
+    doc.parse(doc_text);
 
     auto node = doc.first_node();
     assert(node.m_name == "class");
@@ -162,8 +167,7 @@ void test11()
 {
     xml_document doc = new xml_document;
     string doc_text = "<pfx:class><student at";
-    doc.parse!(0)(doc_text);
-
+    doc.parse(doc_text);
 }
 
 int main()

@@ -13,9 +13,9 @@ void main()
 {
     auto doc = new xml_document;
 
-    string doc_text = "<single-element/>";
+    string xml = "<single-element/>";
 
-    doc.parse(doc_text);
+    doc.parse(xml);
 
     auto node = doc.first_node();
 
