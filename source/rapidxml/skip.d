@@ -13,15 +13,15 @@ module rapidxml.skip;
 
 class parse_error:Exception
 {
-	this(string msg , string text)
-	{
-		super(msg ~ " " ~ text);
-	}
+    this(string msg , string text)
+    {
+        super(msg ~ " " ~ text);
+    }
 
-	this(string msg , char[] text)
-	{
-		super(msg ~ " " ~ cast(string)text.dup);
-	}
+    this(string msg , char[] text)
+    {
+        super(msg ~ " " ~ cast(string)text.dup);
+    }
 }
 
 ubyte[256] lookup_whitespace = [

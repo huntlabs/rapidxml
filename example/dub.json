@@ -2,9 +2,9 @@
     "name": "rapidxml-test",
     "targetType" : "executable",
     "description": "A demo for rapidxml.",
-	"copyright": "Copyright (C) 2018-2019, HuntLabs.net",
-	"license": "Apache-2.0",
-	"dependencies": {
-		"rapidxml" :{"path": "../"}
-	}
+    "copyright": "Copyright (C) 2018-2019, HuntLabs.net",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "rapidxml" :{"path": "../"}
+    }
 }
