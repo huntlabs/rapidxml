@@ -111,7 +111,7 @@ class xml_node:  xml_base
             while (node.m_parent)
                 node = node.m_parent;
             return node.m_type == node_type.node_document ? cast(xml_document)(node) : null;
-        
+
     }
 
     void xmlns_lookup(ref char []xmlns,  char[]  prefix) 
@@ -159,7 +159,7 @@ class xml_node:  xml_base
                 attrname[i] = p1[i];
             attrname = freeme;
         }
-        
+
         for ( xml_node node = this;
                 node;
                 node = node.m_parent) {
@@ -178,9 +178,8 @@ class xml_node:  xml_base
                 // xmlns_size = 0;
             }
         }
-        
-    }
 
+    }
 
     xml_node first_node(string name = null , string xmlns = null , bool case_sensitive = true)
     {
@@ -210,7 +209,6 @@ class xml_node:  xml_base
 
         return null;
     }
-
 
     void prepend_node(xml_node child)
     {
@@ -291,8 +289,6 @@ class xml_node:  xml_base
         child.m_parent = null;
     }
 
-
-
     void remove_node(xml_node where)
     {
         if(where == m_first_node)
@@ -311,10 +307,9 @@ class xml_node:  xml_base
     {
         for( xml_node node = first_node(); node; node = node.m_next_sibling)
             node.m_parent = null;
-        
+
         m_first_node = null;
     }
-
 
     xml_attribute first_attribute(string name = null , bool case_sensitive = true)
     {
@@ -322,7 +317,7 @@ class xml_node:  xml_base
         {
             for(xml_attribute attribute = m_first_attribute ; attribute ; attribute = attribute.m_next_attribute)
             {
-            
+
                 if(attribute.m_name == name)
                 {    
                     return attribute;
@@ -499,7 +494,7 @@ class xml_node:  xml_base
 
 class xml_document : xml_node
 {
-    string parse(int Flags)(string stext , xml_document parent = null)
+    string parse(int Flags = 0)(string stext , xml_document parent = null)
     {
         this.remove_all_nodes();
         this.remove_all_attributes();
@@ -507,7 +502,7 @@ class xml_document : xml_node
         char[] text = cast(char[])stext.dup;
 
         parse_bom(text);
-        
+
         size_t index = 0;
         size_t length = text.length;
         while(1)
@@ -546,7 +541,7 @@ class xml_document : xml_node
         {
             default:
                 return parse_element!Flags(text);
-            
+
             case '?':
                 text = text[1 .. $ ];
                 if(
@@ -562,7 +557,7 @@ class xml_document : xml_node
                 {
                     return parse_pi!Flags(text);
                 }
-            
+
             case '!':
                 switch(text[1])
                 {
@@ -612,7 +607,6 @@ class xml_document : xml_node
         }
     }
 
-    
     xml_node parse_cdata(int Flags)(ref char[] text)
     {
         // If CDATA is disabled
@@ -644,12 +638,11 @@ class xml_document : xml_node
         cdata.m_value = cast(string)value[ 0 .. value.length - text.length].dup;
 
         // Place zero terminator after value
-        
 
         text = text[3 .. $ ];      // Skip ]]>
         return cdata;
     }
-    
+
     char parse_and_append_data(int Flags)(xml_node node, ref char []text, char[] contents_start)
     {
         // Backup to contents start if whitespace trimming is disabled
@@ -752,7 +745,7 @@ class xml_document : xml_node
             text = text[1 .. $ ];
             if(text[0] != '>')
                 throw new parse_error("expected >", text);
-            
+
             text = text[1 .. $ ];
 
             if(Flags & parse_open_only)
@@ -768,7 +761,7 @@ class xml_document : xml_node
     char[] parse_node_contents(int Flags)(ref char[] text , xml_node node)
     {
         char[] retval;
-        
+
         while(1)
         {
             char[] contents_start = text;
@@ -802,7 +795,7 @@ class xml_document : xml_node
                     text = text[1 .. $];
                     if(Flags & parse_open_only)
                         throw new parse_error("Unclosed element actually closed.", text);
-                    
+
                     return retval;
                 }
                 else
@@ -824,7 +817,7 @@ class xml_document : xml_node
     void parse_node_attributes(int Flags)(ref char[] text , xml_node node)
     {
         int index = 0;
-        
+
         while(text.length > 0 && attribute_name_pred.test(text[0]))
         {
             char[] name = text;
@@ -835,23 +828,22 @@ class xml_document : xml_node
 
             xml_attribute attribute = new xml_attribute();
             attribute.m_name = cast(string)name[0 .. name.length - text.length].dup;
-            
+
             node.append_attribute(attribute);
 
             skip!(whitespace_pred)(text);
-            
+
             if(text.length ==0 || text[0] != '=')
                 throw new parse_error("expected =", text);
-            
+
             text = text[1 .. $ ];
 
             skip!(whitespace_pred)(text);
-            
+
             char quote = text[0];
             if(quote != '\'' && quote != '"')
                 throw new parse_error("expected ' or \"", text);
-            
-            
+
             text = text[1 .. $ ];
             char[] value = text ;
             char[] end;
@@ -861,14 +853,12 @@ class xml_document : xml_node
                 end = skip_and_expand_character_refs!(attribute_value_pred!'\'' , attribute_value_pure_pred!('\'') , AttFlags)(text);
             else
                 end = skip_and_expand_character_refs!(attribute_value_pred!('"') , attribute_value_pure_pred!('"') , AttFlags)(text);
-            
 
             attribute.m_value = cast(string)value[0 .. value.length - end.length].dup;
-            
 
             if(text.length > 0 && text[0] != quote)
                 throw new parse_error("expected ' or \"", text);
-            
+
             text = text[1 .. $ ];
 
             skip!(whitespace_pred)(text);
@@ -877,7 +867,7 @@ class xml_document : xml_node
 
     static void skip(T )(ref char[] text)
     {
-        
+
         char[] tmp = text;
         while(tmp.length > 0 && T.test(tmp[0]))
         {
@@ -895,7 +885,6 @@ class xml_document : xml_node
             text = text[3 .. $ ];
         }
     }
-
 
     xml_node parse_xml_declaration(int Flags)(ref char[] text)
     {
@@ -919,8 +908,6 @@ class xml_document : xml_node
             xml_node declaration = new xml_node;
             declaration.m_type = node_type.node_declaration;
 
-
-
             // Skip whitespace before attributes or ?>
             skip!whitespace_pred(text);
             // Parse declaration attributes
@@ -935,7 +922,6 @@ class xml_document : xml_node
         }
     }
 
-    
     xml_node parse_pi(int Flags)(ref char[] text)
     {
         // If creation of PI nodes is enabled
@@ -989,7 +975,6 @@ class xml_document : xml_node
         }
     }
 
-
     xml_node parse_comment(int Flags)(ref char[] text)
     {
         // If parsing of comments is disabled
@@ -1032,7 +1017,7 @@ class xml_document : xml_node
     }
 
     // Parse DOCTYPE
-    
+
     xml_node parse_doctype(int Flags)(ref char[] text)
     {
         // Remember value start

@@ -164,7 +164,7 @@ ubyte[256] lookup_attribute_name  = [
     1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  // E
     1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1   // F
 ];
-          
+
 // Attribute name table
 ubyte[256] lookup_attribute_data_1 = [
 // 0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
@@ -332,7 +332,6 @@ const int parse_fastest = parse_non_destructive | parse_no_data_nodes;
 
 const int parse_full = parse_declaration_node | parse_comment_nodes | parse_doctype_node | parse_pi_nodes | parse_validate_closing_tags;
 
- 
 import std.stdio;
 
 void insert_coded_character(int Flags)(ref char[] text,  ulong code)
@@ -527,7 +526,6 @@ static  char[] skip_and_expand_character_refs(T , TP , int Flags)(ref char[] tex
         dest[index] = src[0];
         ++index;
         src = src[1 .. $ - 1];
-        
 
     }
 
