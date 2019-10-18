@@ -1,7 +1,8 @@
 /*
  * Hunt - A xml library for D programming language.
  *
- * Copyright (C) 2018-2019 HuntLabs
+ * Copyright (C) 2006, 2009 Marcin Kalicinski (For C++ Version 1.13)
+ * Copyright (C) 2018-2019 HuntLabs ( For D Language Version)
  *
  * Website: https://www.huntlabs.net
  *
