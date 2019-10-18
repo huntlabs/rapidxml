@@ -1,5 +1,5 @@
 # rapidxml
-A XML Parsing library for D Programming Language.
+A XML Parsing library for D Programming Language. Ported from C++ [rapidxml](http://rapidxml.sourceforge.net).
 
 # Example
 
